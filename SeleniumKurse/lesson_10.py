@@ -1,30 +1,33 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
+import unittest
 
-link = 'http://suninjuly.github.io/registration2.html'
+link = 'http://suninjuly.github.io/registration1.html'
 browser = webdriver.Chrome()
 
-try:
-    browser.get(link)
 
-    first_name = browser.find_element(By.CLASS_NAME, 'first:required')
-    first_name.send_keys('test')
-    last_name = browser.find_element(By.CLASS_NAME, 'second:required')
-    last_name.send_keys('test')
-    email = browser.find_element(By.CLASS_NAME, 'third:required')
-    email.send_keys('test')
+class TestUniqueSelector(unittest.TestCase):
 
-    button = browser.find_element(By.CSS_SELECTOR, 'button.btn')
-    button.click()
+    def test_congrats_page1(self):
+        browser.get('http://suninjuly.github.io/registration2.html')
 
-    time.sleep(1)
+        first_name = browser.find_element(By.CLASS_NAME, 'first:required')
+        first_name.send_keys('test')
+        last_name = browser.find_element(By.CLASS_NAME, 'second:required')
+        last_name.send_keys('test')
+        email = browser.find_element(By.CLASS_NAME, 'third:required')
+        email.send_keys('test')
 
-    welcome_text_elt = browser.find_element(By.TAG_NAME, 'h1')
-    welcome_text = welcome_text_elt.text
+        button = browser.find_element(By.CSS_SELECTOR, 'button.btn')
+        button.click()
 
-    assert 'Congratulations! You have successfully registered!' == welcome_text
+        time.sleep(1)
 
-finally:
-    time.sleep(5)
-    browser.quit()
+        welcome_text_elt = browser.find_element(By.TAG_NAME, 'h1')
+        welcome_text = welcome_text_elt.text
+
+        time.sleep(5)
+        browser.quit()
+
+        self.assertEqual(welcome_text, 'Congratulations! You have successfully registered!')
